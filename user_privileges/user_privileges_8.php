@@ -1,0 +1,9 @@
+<?php
+
+
+//This is the access privilege file
+$is_admin=true;
+
+$user_info=array('user_name'=>'csabogal','is_admin'=>'on','user_password'=>'$1$cs000000$y/kNuKfAojnznV95VaB1g1','confirm_password'=>'$1$cs000000$y/kNuKfAojnznV95VaB1g1','first_name'=>'Carlos','last_name'=>'Sabogal','roleid'=>'H4','email1'=>'gerencia@galileoinstruments.com.co','status'=>'Active','activity_view'=>'Today','lead_view'=>'Today','hour_format'=>'12','end_hour'=>'','start_hour'=>'00:00','title'=>'Gerente General','phone_work'=>'0544482230','department'=>'','phone_mobile'=>'3113059976','reports_to_id'=>'','phone_other'=>'','email2'=>'','phone_fax'=>'','secondaryemail'=>'','phone_home'=>'','date_format'=>'dd-mm-yyyy','signature'=>'Carlos Augsuto Sabogal \nMovil 3113059976\nskype: carlosaugustosabogallemus','description'=>'','address_street'=>'CRA 74 N 48-37 OFICINA 255','address_city'=>'Medell&iacute;n','address_state'=>'Antioquia','address_postalcode'=>'+574','address_country'=>'Colombia','accesskey'=>'cXAz3YvmPwODzSIz','time_zone'=>'America/Bogota','currency_id'=>'1','currency_grouping_pattern'=>'123,456,789','currency_decimal_separator'=>'.','currency_grouping_separator'=>',','currency_symbol_placement'=>'$1.0','imagename'=>'','internal_mailer'=>'0','theme'=>'bluelagoon','language'=>'es_es','reminder_interval'=>'','phone_crm_extension'=>'','no_of_currency_decimals'=>'2','truncate_trailing_zeros'=>'0','dayoftheweek'=>'Monday','callduration'=>'5','othereventduration'=>'5','calendarsharedtype'=>'public','default_record_view'=>'Summary','leftpanelhide'=>'0','rowheight'=>'medium','defaulteventstatus'=>'Selecciona una Opci&oacute;n','defaultactivitytype'=>'Selecciona una Opci&oacute;n','hidecompletedevents'=>'0','is_owner'=>'1','currency_name'=>'Colombia, Pesos','currency_code'=>'COP','currency_symbol'=>'&#36;','conv_rate'=>'1.00000','record_id'=>'','record_module'=>'','id'=>'8');
+
+?>

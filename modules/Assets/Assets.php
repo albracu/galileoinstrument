@@ -106,11 +106,7 @@ class Assets extends CRMEntity {
 		$this->db = PearDatabase::getInstance();
 		$this->log = $log;
 	}
-
-	function save_module($module){
-		//module specific save
-	}
-
+	
 	/**
 	 * Return query to use based on given modulename, fieldname
 	 * Useful to handle specific case handling for Popup
@@ -463,6 +459,50 @@ class Assets extends CRMEntity {
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
 		$log->debug("Exiting transferRelatedRecords...");
+	}
+	
+	function save_module() {
+		global $adb;
+		
+		$this->registerEquipos($this->id);
+	}
+	
+	function registerEquipos($id) {
+		global $adb;
+		
+		$sql = "DELETE FROM vtiger_assetsequipos WHERE assetsid = ?";
+		$result = $adb->pquery($sql,array($id));
+		
+		$equipos = $_REQUEST['equipo'];
+		$marcas = $_REQUEST['marca'];
+		$referencias = $_REQUEST['referencia'];
+		$seriales = $_REQUEST['serial'];
+		
+		$i = 0;
+		
+		
+		foreach($equipos as $equipo) {
+			if (!empty($equipo) || !empty($marcas[$i]) || !empty($referencias[$i]) || !empty($seriales[$i])) {
+				$sql = "INSERT INTO vtiger_assetsequipos VALUES(?,?,?,?,?)";
+				$adb->pquery($sql,array($id,$equipo,$marcas[$i],$referencias[$i],$seriales[$i]));
+			}
+			$i++;
+		}
+	}
+	
+	function getEquipos($id) {
+		global $adb;
+		
+		$sql = "SELECT equipo, marca, referencia, serial
+					FROM vtiger_assetsequipos WHERE assetsid = ?";
+		
+		$result = $adb->pquery($sql,array($id));
+		
+		$lst = array();
+		while ($row = $adb->fetchByAssoc($result)) {
+			$lst[] = $row;
+		}
+		return $lst;
 	}
 }
 ?>

@@ -15,7 +15,7 @@
 
 // Adjust error_reporting favourable to deployment.
 version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT); // PRODUCTION
-//ini_set('display_errors','on'); version_compare(PHP_VERSION, '5.5.0') <= 0 ? error_reporting(E_WARNING & ~E_NOTICE & ~E_DEPRECATED) : error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);   // DEBUGGING
+ini_set('display_errors','on');  error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT);   // DEBUGGING
 
 
 include('vtigerversion.php');
@@ -52,8 +52,8 @@ $HELPDESK_SUPPORT_EMAIL_REPLY_ID = $HELPDESK_SUPPORT_EMAIL_ID;
 $dbconfig['db_server'] = 'localhost';
 $dbconfig['db_port'] = ':3306';
 $dbconfig['db_username'] = 'root';
-$dbconfig['db_password'] = '64650abc';
-$dbconfig['db_name'] = 'crm';
+$dbconfig['db_password'] = '';
+$dbconfig['db_name'] = 'vtigercolombia_galileo';
 $dbconfig['db_type'] = 'mysqli';
 $dbconfig['db_status'] = 'true';
 
@@ -84,10 +84,10 @@ $dbconfigoption['ssl'] = false;
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://162.243.87.205/crm/';
+$site_URL = 'http://galileo.localhost';
 
 // root directory path
-$root_directory = '/var/www/html/crm/';
+$root_directory = 'C:\\wamp\\www\\vtigercolombia\\galileoinstrument';
 
 // cache direcory path
 $cache_dir = 'cache/';

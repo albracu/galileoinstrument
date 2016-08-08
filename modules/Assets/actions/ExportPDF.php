@@ -19,32 +19,59 @@ class Assets_ExportPDF_Action extends Vtiger_Action_Controller {
 	}
 	
 	public function process(Vtiger_Request $request) {
-		$viewer = new Vtiger_Viewer;
 		
+		$viewer = new Vtiger_Viewer;
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		
 		$recordModel = Vtiger_Record_Model::getInstanceById($record);
 		$recordStrucure = Vtiger_RecordStructure_Model::getInstanceFromRecordModel($recordModel, Vtiger_RecordStructure_Model::RECORD_STRUCTURE_MODE_DETAIL);
 		$structuredValues = $recordStrucure->getStructure();
+		$detailView = new Assets_Detail_View;
 		
-		$accountModel = Vtiger_Record_Model::getInstanceById($recordModel->get('account_id'));
-		$viewer->assign('ACCOUNT_NAME', $accountModel->get('accountname'));
-		$viewer->assign('CONTACT_NAME', $recordModel->get('firstname').' '.$recordModel->get('lastname') );
+		$accountModel = Vtiger_Record_Model::getInstanceById($recordModel->get('account'),'Accounts');
 		
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
-	
+		if (!empty($recordModel->get('contact')))
+			$productModel = Vtiger_Record_Model::getInstanceById($recordModel->get('product'),'Products');
+		else
+			$productModel = Vtiger_Record_Model::getCleanInstance('Products');
+		
+		if (!empty($recordModel->get('contact')))
+			$contactModel = Vtiger_Record_Model::getInstanceById($recordModel->get('contact'),'Contacts');
+		else
+			$contactModel = Vtiger_Record_Model::getCleanInstance('Contacts');
+		
+		$userModel = Users_Record_Model::getInstanceById($recordModel->get('assigned_user_id'),'Users');
+		
+		
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('USERMODEL', $userModel);
+		$viewer->assign('ACCOUNTMODEL', $accountModel);
+		$viewer->assign('CONTACTMODEL', $contactModel);
+		$viewer->assign('PRODUCTMODEL', $productModel);
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('INFO_EQUIPOS', $recordModel->getEquipos($record));
+		
+		//$buffer = $detailView->showModuleDetailView($request);die();
 		$buffer = $viewer->view('ExportPDF.tpl', $moduleName,true);
-		
-		
-		$footer = '<div style="font-family:tahoma,geneva,sans-serif;text-align:right;width:100%;border-top:1px solid #000000;border-bottom:1px solid #000000;padding-bottom:10px;"><h4><i>Avalada por la Camara de Internacional de Comercio del Cono Sur - MERCOSUR</i></h4></div>';
+		$header = '<div style="text-align:left;width:100%;border-bottom:1px solid #000000;">
+						<table style="width:100%">
+							<tr><td style="height:50px;vertical-align:bottom;">
+								<h3>Remisión de Equipos</h3>
+								</td>
+								<td style="text-align:right">
+									<img src="test/logo/logotipo_galileo_web-01.png" style="height:40px"/>
+								</td>
+							</tr>
+						</table></div>';
+						
+		$footer = '<div style="text-align:right;width:100%;border-top:1px solid #000000;">Impreso el: '.date('d-m-Y').'</div>';
 	
-		
 		$mpdf=new mPDF('','', 0, '', 15, 15, 16, 16, 9, 9);
 		$mpdf->useSubstitutions = true; // optional - just as an example
 		$mpdf->setAutoTopMargin = 'stretch'; 
 		$mpdf->setAutoBottomMargin = 'stretch'; 
-		//$mpdf->SetHTMLHeader ($header);  // optional - just as an example
+		$mpdf->SetHTMLHeader ($header);  // optional - just as an example
 		$mpdf->SetHTMLFooter ($footer);
 		$mpdf->setBasePath($url);
 		$mpdf->WriteHTML($buffer);
